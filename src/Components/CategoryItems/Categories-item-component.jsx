@@ -1,3 +1,5 @@
+
+
 import './Categories-item.styles.scss';
 
 const CategoryItem = ({category}) => {
