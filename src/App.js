@@ -37,7 +37,7 @@ function App() {
       
       {categories.map(({category}) => {
        return (
-         <CategoryItem key = {category.id} category={category}/>
+         <CategoryItem key = {category.id} category={category} />
        );
       })}
     </div>
