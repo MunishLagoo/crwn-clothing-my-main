@@ -11,7 +11,8 @@ import {
 //singleton db instance
 export const db = getFirestore();
 
-export const createUserDocumentFromAuth = async(userAuth) => {
+export const createUserDocumentFromAuth = async(userAuth, additionalInformation = {}) => {
+  if (!userAuth) return;
 
   //doc(DB,Collection,DocumentID)
 
@@ -28,7 +29,7 @@ export const createUserDocumentFromAuth = async(userAuth) => {
 
     try {
       await setDoc(userDocRef, {
-        displayName,email,createdAt
+        displayName,email,createdAt,...additionalInformation,
       });
     } catch(error) {
       console.log('error creating the user', error.message);

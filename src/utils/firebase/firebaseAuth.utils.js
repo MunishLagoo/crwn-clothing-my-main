@@ -4,7 +4,8 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, 
          signInWithRedirect, 
          signInWithPopup, 
-         GoogleAuthProvider, } from 'firebase/auth';
+         GoogleAuthProvider,
+         createUserWithEmailAndPassword, } from 'firebase/auth';
 
 
 const firebaseConfig = {
@@ -31,4 +32,10 @@ const firebaseConfig = {
     export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider); 
 
     export const signInWithGoogleRedirect = () => signInWithRedirect(auth,googleProvider);
+    
+    export const createAuthUserWithEmailAndPassword = async(email, password) => {
+      if(!email || !password) return;
+
+      return await createUserWithEmailAndPassword(auth, email, password);
+    };
     
