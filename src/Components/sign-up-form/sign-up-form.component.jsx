@@ -44,11 +44,21 @@ const SignUpForm = () => {
             resetFormFields();
 
         } catch(error) {
-            if (error.code === 'auth/email-already-in-use') {
-                alert('cannot create user, email already in use');
-            } else {
-                console.error(error);
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    alert('cannot create user, email already in use');
+                break;
+                case 'auth/account-exists-with-different-credential':
+                    alert('cannot create user, account-exists-with-different-credential');
+                break;
+                default: console.error(error);
+                    break;
             }
+            // if (error.code === 'auth/email-already-in-use') {
+            //     alert('cannot create user, email already in use');
+            // } else {
+            //     console.error(error);
+            // }
         }
     };
 

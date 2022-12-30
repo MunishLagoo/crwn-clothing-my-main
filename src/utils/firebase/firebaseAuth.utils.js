@@ -5,7 +5,10 @@ import { getAuth,
          signInWithRedirect, 
          signInWithPopup, 
          GoogleAuthProvider,
-         createUserWithEmailAndPassword, } from 'firebase/auth';
+         FacebookAuthProvider,
+         createUserWithEmailAndPassword,
+         signInWithEmailAndPassword,  
+        } from 'firebase/auth';
 
 
 const firebaseConfig = {
@@ -22,14 +25,20 @@ const firebaseConfig = {
   const firebaseApp = initializeApp(firebaseConfig);
 
   const googleProvider = new GoogleAuthProvider();
+  const facebookProvider = new FacebookAuthProvider();
   
 
   googleProvider.setCustomParameters({
     prompt: "select_account"
     });
 
+  facebookProvider.setCustomParameters({
+    prompt: "select_account"
+  });
+
     export const auth = getAuth();
     export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider); 
+    export const signInWithFaceBookPopup = () => signInWithPopup(auth,facebookProvider);
 
     export const signInWithGoogleRedirect = () => signInWithRedirect(auth,googleProvider);
     
@@ -39,3 +48,8 @@ const firebaseConfig = {
       return await createUserWithEmailAndPassword(auth, email, password);
     };
     
+    export const signInAuthWithEmailAndPassword = async(email, password) => {
+      if(!email || !password) return ;
+
+      return await signInWithEmailAndPassword(auth, email, password);
+    }
