@@ -15,7 +15,7 @@ const Authentication = () => {
      useEffect(() => {
         async function fetchData() {
             const response = await getRedirectResult(auth);
-            console.log(response);
+            //console.log(response);
             if (response) {
                 await createUserDocumentFromAuth(response.user);
             }

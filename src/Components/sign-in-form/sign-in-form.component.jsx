@@ -1,11 +1,12 @@
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import { signInAuthWithEmailAndPassword, signInWithGooglePopup, signInWithGoogleRedirect, signInWithFaceBookPopup } from '../../utils/firebase/firebaseAuth.utils.js';
 import {  createUserDocumentFromAuth } from '../../utils/firebase/firestoreDB.utils.js';
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
+import { UserContext } from '../../contexts/user.context';
 
 import './sign-in-form.styles.scss';
 
@@ -19,6 +20,10 @@ const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
 
+    //Signin form set's in UserContext user value,
+    // then this state is shared across the app.
+    const { setCurrentUser } = useContext(UserContext);
+
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
     }
@@ -28,10 +33,13 @@ const SignInForm = () => {
 
         
         try {
-           const response = await signInAuthWithEmailAndPassword(email,password);
-                                  
-           console.log(response);
-            resetFormFields();
+           const { user } = await signInAuthWithEmailAndPassword(email,password);
+          
+        // sets UserContext value   
+           setCurrentUser(user);
+          
+           
+           resetFormFields();
         } catch(error) {
             switch (error.code) {
                 case 'auth/wrong-password':
@@ -69,7 +77,7 @@ const SignInForm = () => {
 
 
     return (
-        <div className='sign-up-container'>
+        <div className='sign-in-container'>
         <h2>Already have an account?</h2>
         <span> Sign in with your email and password</span>
         <form onSubmit={handleSubmit}>
@@ -89,9 +97,9 @@ const SignInForm = () => {
             name='password'  
             value={password} 
             />
-            <div className='button-container'>
-                <Button type='submit'>Sign In</Button>
-                <Button type='button' buttonType='google' onClick={logGoogleUser}>Google Sign in</Button>
+            <div className='buttons-container'>
+                <Button type='submit' >Sign In</Button>
+                <Button type='button' buttonType='google' onClick={logGoogleUser}>Google</Button>
                 
             </div>
             
