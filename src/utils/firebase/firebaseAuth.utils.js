@@ -8,9 +8,11 @@ import { getAuth,
          FacebookAuthProvider,
          createUserWithEmailAndPassword,
          signInWithEmailAndPassword,  
-         signOut
+         signOut,
+         onAuthStateChanged,
         } from 'firebase/auth';
 
+    
 
 const firebaseConfig = {
     apiKey: "AIzaSyD3Cjngs_BkHNS4hXj6X5Nw_E9gCJ3SM7I",
@@ -56,4 +58,6 @@ const firebaseConfig = {
     }
 
     export const signOutUser = async() =>  await signOut(auth);
+
+    export const onAuthStateChangedListner = (callback) => onAuthStateChanged(auth, callback);
     

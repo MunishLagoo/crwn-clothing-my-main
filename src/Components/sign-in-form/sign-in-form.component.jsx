@@ -1,12 +1,10 @@
 
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 
 import { signInAuthWithEmailAndPassword, signInWithGooglePopup, signInWithGoogleRedirect, signInWithFaceBookPopup } from '../../utils/firebase/firebaseAuth.utils.js';
-import {  createUserDocumentFromAuth } from '../../utils/firebase/firestoreDB.utils.js';
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
-import { UserContext } from '../../contexts/user.context';
 
 import './sign-in-form.styles.scss';
 
@@ -20,11 +18,7 @@ const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
 
-    //Signin form set's in UserContext user value,
-    // then this state is shared across the app.
-    const { setCurrentUser } = useContext(UserContext);
-
-    const resetFormFields = () => {
+   const resetFormFields = () => {
         setFormFields(defaultFormFields);
     }
 
@@ -33,13 +27,11 @@ const SignInForm = () => {
 
         
         try {
-           const { user } = await signInAuthWithEmailAndPassword(email,password);
-          
-        // sets UserContext value   
-           setCurrentUser(user);
-          
            
+        await signInAuthWithEmailAndPassword(email,password);
+
            resetFormFields();
+
         } catch(error) {
             switch (error.code) {
                 case 'auth/wrong-password':
@@ -64,15 +56,15 @@ const SignInForm = () => {
     };
 
     const logGoogleUser = async() => {
-        //const response = await signInWithGooglePopup();
-        const { user } = await signInWithGooglePopup();
-         await createUserDocumentFromAuth(user);
+        
+         await signInWithGooglePopup();
+        
     }
 
     const logFacebookUser= async() => {
-        const response = await signInWithFaceBookPopup();
-        console.log(response);
-        await createUserDocumentFromAuth(response.user);
+        
+        await signInWithFaceBookPopup();
+
     }
 
 
