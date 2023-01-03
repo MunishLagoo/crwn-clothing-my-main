@@ -62,12 +62,16 @@ export const CartProvider = ({ children }) => {
                 0
             );
             setCartCount(newCartCount);
+            
+        }, [cartItems]);
 
+        useEffect(() => {
             const newCheckoutTotal = cartItems.reduce(
                 (checkoutTotal,cartItem) => checkoutTotal + (cartItem.quantity*cartItem.price),
                 0
             );
             setCheckoutTotal(newCheckoutTotal);
+            
         }, [cartItems]);
    
 
